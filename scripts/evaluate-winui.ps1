@@ -80,7 +80,10 @@ try {
         $initialFolderMs = $watch.Elapsed.TotalMilliseconds
 
         $null = [EvaluationWindow]::ShowWindow($application.MainWindowHandle, 9)
-        $null = [EvaluationWindow]::SetWindowPos($application.MainWindowHandle, [IntPtr]::Zero, 20, 20, 1120, 760, 0x0040)
+        $area = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+        $width = [Math]::Min(1120, $area.Width)
+        $height = [Math]::Min(760, $area.Height)
+        $null = [EvaluationWindow]::SetWindowPos($application.MainWindowHandle, [IntPtr]::Zero, $area.X, $area.Y, $width, $height, 0x0040)
         $null = [EvaluationWindow]::SetForegroundWindow($application.MainWindowHandle)
         $address = Find-Control $root 'Address'
         $address.SetFocus()

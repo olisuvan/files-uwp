@@ -1,7 +1,7 @@
 name: WinUI modernization
 on:
   push:
-    branches: [master, 'codex/**']
+    branches: [master]
     paths: ['src/**', 'tests/**', 'scripts/**', '.github/workflows/winui.yml']
   pull_request:
     paths: ['src/**', 'tests/**', 'scripts/**', '.github/workflows/winui.yml']
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: winui-${{ github.event.pull_request.head.ref || github.ref_name }}
+  group: winui-${{ github.event_name }}-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
