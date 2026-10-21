@@ -9,6 +9,10 @@ $executable = Join-Path $directory 'Files.WinUI.exe'
 if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
     throw "Published application is missing: $executable"
 }
+$resourceIndex = Join-Path $directory 'Files.WinUI.pri'
+if (-not (Test-Path -LiteralPath $resourceIndex -PathType Leaf)) {
+    throw "The application's resource index is missing: $resourceIndex"
+}
 
 $application = $null
 $startedAt = Get-Date

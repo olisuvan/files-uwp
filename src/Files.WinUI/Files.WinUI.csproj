@@ -24,4 +24,24 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
     <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
   </ItemGroup>
+  <!-- The unpackaged MRT Core build path generates the app PRI but currently
+       omits it from dotnet publish (WindowsAppSDK #6720). Keep app resources in
+       the published folder, including loose XBF files used by Debug builds. -->
+  <Target Name="PublishWinUIApplicationResources"
+          BeforeTargets="ComputeResolvedFilesToPublishList"
+          DependsOnTargets="_GenerateProjectPriFile"
+          Condition="'$(WindowsPackageType)' == 'None'">
+    <Error Condition="!Exists('$(ProjectPriFullPath)')"
+           Text="The application's PRI was not generated; publishing without it would prevent XAML startup." />
+    <ItemGroup>
+      <ResolvedFileToPublish Include="$(ProjectPriFullPath)" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>$(ProjectPriFileName)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+      <ResolvedFileToPublish Include="$(TargetDir)**\*.xbf" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 </Project>
