@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media.Animation;
 using System.ComponentModel;
+using System.Linq;
+using System.IO;
 
 namespace Interacts
 {
@@ -496,41 +498,69 @@ namespace Interacts
 
         }
 
+        private static bool deleteInProgress;
+
         public static async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            //MessageDialog DeleteConfirmationDialog = new MessageDialog("Are you sure you want to send " + GenericFileBrowser.data.SelectedItems.Count + " item(s) to the Recycle Bin?", "Move to Recycle Bin?");
-            //DeleteConfirmationDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(Interaction.DeleteConfirmed)));
-            //DeleteConfirmationDialog.Commands.Add(new UICommand("Cancel"));
-            //await DeleteConfirmationDialog.ShowAsync();
+            if (deleteInProgress)
+            {
+                return;
+            }
+            // Selection can change across awaits. Do not enumerate the live UI collection.
+            var selected = GenericFileBrowser.data.SelectedItems.OfType<ListedItem>().ToArray();
+            if (selected.Length == 0)
+            {
+                return;
+            }
+            deleteInProgress = true;
+            var failures = new List<string>();
             try
             {
-                foreach (ListedItem storItem in GenericFileBrowser.data.SelectedItems)
+                foreach (ListedItem storItem in selected)
                 {
-                    if (storItem.FileExtension != "Folder")
+                    try
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                        IStorageItem item;
+                        if (storItem.FileExtension == "Folder")
+                        {
+                            item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                        }
+                        else
+                        {
+                            item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                        }
                         await item.DeleteAsync(StorageDeleteOption.Default);
-
                     }
-                    else
+                    catch (UnauthorizedAccessException)
                     {
-                        var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                        await item.DeleteAsync(StorageDeleteOption.Default);
-
+                        failures.Add(storItem.FileName + ": Access denied.");
                     }
-
+                    catch (IOException ex)
+                    {
+                        failures.Add(storItem.FileName + ": " + ex.Message);
+                    }
+                    catch (System.Runtime.InteropServices.COMException ex)
+                    {
+                        failures.Add(storItem.FileName + ": " + ex.Message);
+                    }
                 }
-                NavigationActions.Refresh_Click(null, null);
-
             }
-            catch (InvalidOperationException)
+            finally
             {
-
+                try
+                {
+                    // Partial success must be visible even when another item failed.
+                    NavigationActions.Refresh_Click(null, null);
+                }
+                finally
+                {
+                    deleteInProgress = false;
+                }
             }
-            catch (System.UnauthorizedAccessException)
+            if (failures.Count > 0)
             {
-                MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
-                await AccessDeniedDialog.ShowAsync();
+                await new MessageDialog(string.Join(Environment.NewLine, failures.Take(10)),
+                    "Some items could not be deleted").ShowAsync();
             }
         }
 
