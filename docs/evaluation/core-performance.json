@@ -1,0 +1,199 @@
+{
+  "Schema": 1,
+  "SourceCommit": "70f75c8b81f9f5c209e52850a42fb656873a15a8",
+  "MeasuredAtUtc": "2026-10-21T04:37:51.3231399Z",
+  "Environment": {
+    "OS": "Microsoft Windows 10.0.26100",
+    "Architecture": "X64",
+    "Runtime": ".NET 10.0.13",
+    "LogicalProcessors": 4,
+    "TotalAvailableMemoryBytes": 17174360064,
+    "RunnerImage": "20261007.264.1"
+  },
+  "Method": "Release; sequential; freshly-created local fixtures; no cache purge; 5 read/filter samples, 3 copy samples; copy includes staging commit and buffered FlushAsync, not durable media flush; validation/hashing excluded; UI excluded.",
+  "Measurements": [
+    {
+      "Name": "read_metadata_and_sort_500",
+      "Items": 500,
+      "SamplesMs": [
+        0.7621,
+        0.6492,
+        0.6914,
+        0.5858,
+        0.5819
+      ],
+      "MedianMs": 0.6492,
+      "MinimumMs": 0.5819,
+      "MaximumMs": 0.7621,
+      "FirstAfterFixtureMs": 6.8505,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_500_document",
+      "Items": 500,
+      "SamplesMs": [
+        0.031587000000000004,
+        0.019191,
+        0.019162,
+        0.027751,
+        0.031034000000000003
+      ],
+      "MedianMs": 0.027751,
+      "MinimumMs": 0.019162,
+      "MaximumMs": 0.031587000000000004,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_500_not-found",
+      "Items": 500,
+      "SamplesMs": [
+        0.014575,
+        0.01237,
+        0.011167,
+        0.011392,
+        0.01118
+      ],
+      "MedianMs": 0.011392,
+      "MinimumMs": 0.011167,
+      "MaximumMs": 0.014575,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "read_metadata_and_sort_5000",
+      "Items": 5000,
+      "SamplesMs": [
+        14.6862,
+        5.7398,
+        7.3493,
+        4.7362,
+        4.6958
+      ],
+      "MedianMs": 5.7398,
+      "MinimumMs": 4.6958,
+      "MaximumMs": 14.6862,
+      "FirstAfterFixtureMs": 6.6346,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_5000_document",
+      "Items": 5000,
+      "SamplesMs": [
+        0.18104299999999998,
+        0.180727,
+        0.196,
+        0.184406,
+        0.184814
+      ],
+      "MedianMs": 0.184406,
+      "MinimumMs": 0.180727,
+      "MaximumMs": 0.196,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_5000_not-found",
+      "Items": 5000,
+      "SamplesMs": [
+        0.12293599999999999,
+        0.122501,
+        0.12293699999999999,
+        0.12664999999999998,
+        0.12464499999999999
+      ],
+      "MedianMs": 0.12293699999999999,
+      "MinimumMs": 0.122501,
+      "MaximumMs": 0.12664999999999998,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "read_metadata_and_sort_20000",
+      "Items": 20000,
+      "SamplesMs": [
+        47.5251,
+        26.9125,
+        31.7656,
+        234.335,
+        433.5434
+      ],
+      "MedianMs": 47.5251,
+      "MinimumMs": 26.9125,
+      "MaximumMs": 433.5434,
+      "FirstAfterFixtureMs": 45.7037,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_20000_document",
+      "Items": 20000,
+      "SamplesMs": [
+        0.540583,
+        0.44388800000000006,
+        0.436038,
+        0.434648,
+        0.441601
+      ],
+      "MedianMs": 0.441601,
+      "MinimumMs": 0.434648,
+      "MaximumMs": 0.540583,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "filter_20000_not-found",
+      "Items": 20000,
+      "SamplesMs": [
+        0.176356,
+        0.175818,
+        0.178516,
+        0.174591,
+        0.173522
+      ],
+      "MedianMs": 0.175818,
+      "MinimumMs": 0.173522,
+      "MaximumMs": 0.178516,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    },
+    {
+      "Name": "copy_128_MiB_file",
+      "Items": 1,
+      "SamplesMs": [
+        107.4824,
+        103.4551,
+        101.6418
+      ],
+      "MedianMs": 103.4551,
+      "MinimumMs": 101.6418,
+      "MaximumMs": 107.4824,
+      "FirstAfterFixtureMs": null,
+      "MiB": 128,
+      "MedianMiBPerSecond": 1237.2517159618037
+    },
+    {
+      "Name": "copy_1000_files_1_KiB_each",
+      "Items": 1000,
+      "SamplesMs": [
+        893.1494,
+        428.8679,
+        547.1797
+      ],
+      "MedianMs": 547.1797,
+      "MinimumMs": 428.8679,
+      "MaximumMs": 893.1494,
+      "FirstAfterFixtureMs": null,
+      "MiB": null,
+      "MedianMiBPerSecond": null
+    }
+  ]
+}

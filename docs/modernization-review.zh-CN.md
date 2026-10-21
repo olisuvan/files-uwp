@@ -59,6 +59,12 @@ Files.WinUI 桌面应用与可独立测试的 Files.Core。新版实现文件夹
 
 ## 验证证据与边界
 
+补充验证：源码提交 `407a06e52d16572c8ab7b3ba82c35fb9bd348794` 的
+[Windows/Linux 运行 #18](https://github.com/olisuvan/files-uwp/actions/runs/39544883657)
+四项任务全部通过；额外完成三次 x64 路径导航、筛选/恢复、正常关闭检查，并采集真实窗口截图、
+启动/内存与核心文件操作的原始性能样本。范围与数据见
+[当前功能与性能评估](current-assessment.zh-CN.md)。下面保留此前发布问题的验证记录。
+
 - 已在 Linux、.NET SDK 10.0.402 上运行核心回归：36/36 通过。
 - Files.Core Release 编译通过：0 warning，0 error。
 - 新版界面后端 C# 使用实际还原的 Windows SDK / WinUI 引用做了独立 API 编译检查：

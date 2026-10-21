@@ -1,0 +1,52 @@
+{
+  "Schema": 1,
+  "SourceCommit": "70f75c8b81f9f5c209e52850a42fb656873a15a8",
+  "MeasuredAtUtc": "2026-10-21T04:38:16.6190378Z",
+  "OS": "Microsoft Windows NT 10.0.26100.0",
+  "LogicalProcessors": 4,
+  "RunnerImage": "20261007.264.1",
+  "Method": "3 sequential launches on one Windows CI VM, no OS-cache purge; 100ms polling plus UIA overhead; initial folder committed is not first paint; fixture has 8 entries; idle memory after filter reset and 2s pause; screenshot captures actual application window.",
+  "Checks": [
+    "window started",
+    "initial folder committed",
+    "address navigation to fixture",
+    "filter to one file",
+    "clear filter restores folders",
+    "clean window close"
+  ],
+  "Samples": [
+    {
+      "Iteration": 1,
+      "WindowCreatedMs": 370.03360000000004,
+      "InitialFolderCommittedMs": 1679.0446000000002,
+      "FixtureNavigationObservedMs": 165.40970000000002,
+      "SmallFolderFilterObservedMs": 131.5021,
+      "IdleWorkingSetMiB": 143.64453125,
+      "IdlePrivateBytesMiB": 60.29296875,
+      "TotalCpuMsSinceLaunch": 1046.875,
+      "WindowTitle": "Files · 文件管理器"
+    },
+    {
+      "Iteration": 2,
+      "WindowCreatedMs": 341.43330000000003,
+      "InitialFolderCommittedMs": 556.094,
+      "FixtureNavigationObservedMs": 71.31360000000001,
+      "SmallFolderFilterObservedMs": 133.3371,
+      "IdleWorkingSetMiB": 148.640625,
+      "IdlePrivateBytesMiB": 59.9375,
+      "TotalCpuMsSinceLaunch": 1140.625,
+      "WindowTitle": "Files · 文件管理器"
+    },
+    {
+      "Iteration": 3,
+      "WindowCreatedMs": 330.6538,
+      "InitialFolderCommittedMs": 545.8244000000001,
+      "FixtureNavigationObservedMs": 65.47,
+      "SmallFolderFilterObservedMs": 130.2459,
+      "IdleWorkingSetMiB": 141.80859375,
+      "IdlePrivateBytesMiB": 59.02734375,
+      "TotalCpuMsSinceLaunch": 843.75,
+      "WindowTitle": "Files · 文件管理器"
+    }
+  ]
+}

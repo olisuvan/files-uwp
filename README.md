@@ -12,10 +12,14 @@ rename, clipboard copy/paste and Windows Recycle Bin integration.
 
 The core regression suite passes locally and on Windows/Linux CI. Windows
 x64/ARM64 publish builds, including XAML resources, and the x64 application
-startup check passed for source commit feca9ae2d3a5e4599dc81cffcd0d8a9655b94e68.
-See [the successful workflow](https://github.com/olisuvan/files-uwp/actions/runs/39527180491)
-for the complete published folders. **Interactive UI acceptance has not yet
-been completed.** See
+startup check passed for source commit 407a06e52d16572c8ab7b3ba82c35fb9bd348794.
+The x64 UI also passed automated path navigation, filtering, filter reset and
+clean-close checks across three launches.
+See [the successful workflow](https://github.com/olisuvan/files-uwp/actions/runs/39544883657)
+for complete published folders and the `Files-Windows-evaluation` artifact with
+an actual running screenshot and raw performance samples.
+**Full Windows interaction acceptance has not yet been completed.** See
+[the feature/performance assessment](docs/current-assessment.zh-CN.md) and
 [the review and validation checklist](docs/modernization-review.zh-CN.md).
 
 The legacy photo album, classic view, thumbnails, drag-and-drop and overwrite
@@ -63,8 +67,10 @@ change does not create MSIX packaging or automatic updates.
 
 The workflow in .github/workflows/winui.yml runs core regressions on Linux and
 Windows, builds portable x64/ARM64 folders, and checks x64 startup by launching
-the published executable. See the checks on the modernization pull request for
-the remote results of the corresponding commit.
+the published executable. The x64 job also measures core operations and captures
+the actual UI with startup/memory samples. These CI measurements are not a
+performance guarantee for another computer. See the checks on the modernization
+pull request for the remote results of the corresponding commit.
 
 ## Operation behavior
 
