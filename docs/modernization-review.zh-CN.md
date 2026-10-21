@@ -15,7 +15,7 @@ Files.WinUI 桌面应用与可独立测试的 Files.Core。新版实现文件夹
 新建文件夹、重命名、系统剪贴板复制/粘贴及交由 Windows 处理的回收站操作。
 原 UWP 删除逻辑同时做了小范围修复。
 
-这是一版需要在 Windows 上完成验收的迁移实现。原版照片墙、经典视图、拖放、
+这是一版已通过 Windows 构建和 x64 启动检查、仍需交互验收的迁移实现。原版照片墙、经典视图、拖放、
 文件缩略图、碰撞覆盖界面尚未迁移；新版也没有新增剪切、标签页或递归搜索。
 新版粘贴仅复制，遇到同名项目报告失败并保留现有内容。筛选只作用于当前目录。
 主题与隐藏项选择目前只保留在本次进程中。
@@ -64,12 +64,21 @@ Files.WinUI 桌面应用与可独立测试的 Files.Core。新版实现文件夹
 - 新版界面后端 C# 使用实际还原的 Windows SDK / WinUI 引用做了独立 API 编译检查：
   0 warning，0 error。该检查临时提供 XAML 字段声明，不运行 XAML 编译或界面。
 - 新版 NuGet 依赖已成功还原。
-- 完整 WinUI 构建在 Linux 的 Windows XamlCompiler.exe 启动处停止（Exec format error）。
-  因此完整 Windows 构建、XAML 生成、启动、界面交互与回收站行为都尚未通过验收。
-- 已加入 GitHub Actions：Windows/Linux 核心测试及 Windows x64/ARM64 发布构建。
-  工作流尚未上传或运行，不能把配置文件视为验证通过。
+- 完整 WinUI 构建在本地 Linux 的 Windows XamlCompiler.exe 启动处停止（Exec format error）。
+  随后在 GitHub Windows CI 完成了 x64 与 ARM64 的完整编译（含 XAML）及自包含发布。
+- 远程核心回归：Linux 36/36、Windows 34/34 通过；Windows 跳过需额外权限的两个符号链接用例。
+- 最终远程构建与回归对应源码提交 feca9ae2d3a5e4599dc81cffcd0d8a9655b94e68，
+  四项任务全部成功，记录：https://github.com/olisuvan/files-uwp/actions/runs/39527180491 。
+- x64 启动检查已通过：启动发布后的 exe，确认创建“Files · 文件管理器”窗口，
+  且初始加载后仍运行。ARM64 本次只做交叉编译发布，未在 ARM64 设备上运行。
+  启动检查不等于文件交互、辅助功能、回收站和纯净机器部署验收。
+- 启动检查曾发现发布目录遗漏应用自身的 PRI 索引，进程因此无法加载 MainWindow.xaml。
+  已检查实际发布包并核对 SDK 问题报告，在项目中显式收集应用 PRI 和编译 XAML，
+  同时修正发布项的相对路径元数据；最终以真实启动检查确认修复。
+  相关上游记录：https://github.com/microsoft/WindowsAppSDK/issues/6720 。
 - 初次交付时，向 GitHub 创建分支返回 403 Resource not accessible by integration。
-  后续已补齐仓库所属账号的 GitHub App 安装授权；推送与远程验证结果以升级 PR 为准。
+  后续已补齐仓库所属账号的 GitHub App 安装授权并成功推送，草稿 PR：
+  https://github.com/olisuvan/files-uwp/pull/1 。后续提交以 PR 的检查记录为准。
 
 ## 文件操作的限制
 

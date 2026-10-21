@@ -10,9 +10,12 @@ Implemented: drive/folder navigation, back/forward/up, address entry, current-fo
 name filtering, hidden-item toggle, system/light/dark themes, folder creation,
 rename, clipboard copy/paste and Windows Recycle Bin integration.
 
-The core regression suite passes locally. The WinUI C# backend passes an API-only
-compile check against the real SDK references. **Full Windows/XAML compilation
-and UI acceptance have not yet been completed.** See
+The core regression suite passes locally and on Windows/Linux CI. Windows
+x64/ARM64 publish builds, including XAML resources, and the x64 application
+startup check passed for source commit feca9ae2d3a5e4599dc81cffcd0d8a9655b94e68.
+See [the successful workflow](https://github.com/olisuvan/files-uwp/actions/runs/39527180491)
+for the complete published folders. **Interactive UI acceptance has not yet
+been completed.** See
 [the review and validation checklist](docs/modernization-review.zh-CN.md).
 
 The legacy photo album, classic view, thumbnails, drag-and-drop and overwrite
@@ -59,7 +62,9 @@ Windows App SDK are self-contained. No old UWP certificate is required. This
 change does not create MSIX packaging or automatic updates.
 
 The workflow in .github/workflows/winui.yml runs core regressions on Linux and
-Windows and builds portable x64/ARM64 folders. It has not yet been run remotely.
+Windows, builds portable x64/ARM64 folders, and checks x64 startup by launching
+the published executable. See the checks on the modernization pull request for
+the remote results of the corresponding commit.
 
 ## Operation behavior
 
@@ -75,20 +80,20 @@ Windows and builds portable x64/ARM64 folders. It has not yet been run remotely.
 - F5 refreshes; Alt+Left/Right navigates; Ctrl+L focuses the address bar.
   With the list focused, Enter opens, F2 renames and Delete starts confirmation.
 
-## Apply the delivered patch
+## Review the current upgrade
 
-The update targets upstream commit a3f5449dbdc065bb2c2cfd4ecb160ccbb76699b4.
-In a clean checkout, create a review branch and check before applying:
+The current source and validation history are in
+[PR #1](https://github.com/olisuvan/files-uwp/pull/1).
+From an existing checkout:
 
 ~~~powershell
-git switch -c review/winui3-modernization
-git apply --check files-winui3-modernization.patch
-git apply files-winui3-modernization.patch
+git fetch origin codex/winui3-modernization
+git switch --track origin/codex/winui3-modernization
 ~~~
 
-Alternatively, copy the updates directory from the delivered archive over that
-checkout. It contains changed/new text sources, not a full repository or a
-compiled application. Preserve the existing LICENSE and assets.
+Open Files.Modern.slnx. Download the complete application folder from a successful
+workflow run linked to that PR. The original source-only archive captures the
+first delivery and predates subsequent Windows publication/startup fixes.
 
 ## Legacy UWP application
 
