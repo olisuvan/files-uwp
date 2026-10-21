@@ -11,6 +11,7 @@ if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
 }
 
 $application = $null
+$startedAt = Get-Date
 try {
     $application = Start-Process -FilePath $executable -WorkingDirectory $directory -PassThru
     $deadline = [DateTime]::UtcNow.AddSeconds(30)
@@ -36,6 +37,17 @@ try {
         throw "Application exited during initial loading. Exit code: $($application.ExitCode)"
     }
     Write-Host "Startup smoke check passed: $($application.MainWindowTitle)"
+}
+catch {
+    $diagnostic = Join-Path $env:LOCALAPPDATA 'Files\Logs\startup.log'
+    if (Test-Path -LiteralPath $diagnostic) {
+        Write-Host 'WinUI startup diagnostic:'
+        Get-Content -LiteralPath $diagnostic -Tail 100
+    }
+    Get-WinEvent -FilterHashtable @{ LogName = 'Application'; StartTime = $startedAt } -ErrorAction SilentlyContinue |
+        Where-Object { $_.Id -in 1000, 1001, 1026 } |
+        Select-Object -First 5 TimeCreated, Id, Message | Format-List
+    throw
 }
 finally {
     if ($null -ne $application) {
