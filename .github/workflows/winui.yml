@@ -51,6 +51,23 @@ jobs:
         if: matrix.platform == 'x64'
         shell: pwsh
         run: ./scripts/smoke-test-winui.ps1 -PublishDirectory ./artifacts/win-x64
+      - name: Measure core performance on Windows
+        if: matrix.platform == 'x64'
+        run: dotnet run --project tests/Files.Performance -c Release -- artifacts/evaluation/core-performance.json
+      - name: Capture actual x64 UI and measure startup
+        if: matrix.platform == 'x64'
+        shell: pwsh
+        run: >-
+          powershell -NoLogo -NoProfile -NonInteractive -STA -ExecutionPolicy Bypass
+          -File ./scripts/evaluate-winui.ps1
+          -PublishDirectory ./artifacts/win-x64 -OutputDirectory ./artifacts/evaluation
+      - name: Upload screenshot and measurements
+        if: always() && matrix.platform == 'x64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Files-Windows-evaluation
+          path: artifacts/evaluation/
+          if-no-files-found: warn
       - name: Upload portable application folder
         uses: actions/upload-artifact@v4
         with:
