@@ -38,8 +38,9 @@
         <RelativePath>$(ProjectPriFileName)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
-      <ResolvedFileToPublish Include="$(TargetDir)**\*.xbf" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+      <_WinUICompiledMarkup Include="$(TargetDir)**\*.xbf" />
+      <ResolvedFileToPublish Include="@(_WinUICompiledMarkup)" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(_WinUICompiledMarkup.RecursiveDir)%(_WinUICompiledMarkup.Filename)%(_WinUICompiledMarkup.Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
     </ItemGroup>
