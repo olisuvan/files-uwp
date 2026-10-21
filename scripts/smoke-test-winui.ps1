@@ -12,6 +12,8 @@ if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
 
 $application = $null
 $startedAt = Get-Date
+$previousTrace = $env:FILES_TRACE_STARTUP
+$env:FILES_TRACE_STARTUP = '1'
 try {
     $application = Start-Process -FilePath $executable -WorkingDirectory $directory -PassThru
     $deadline = [DateTime]::UtcNow.AddSeconds(30)
@@ -50,6 +52,7 @@ catch {
     throw
 }
 finally {
+    $env:FILES_TRACE_STARTUP = $previousTrace
     if ($null -ne $application) {
         $application.Refresh()
         if (-not $application.HasExited) {
