@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: winui-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   core:
     strategy:
@@ -41,6 +45,7 @@ jobs:
         run: >-
           dotnet publish src/Files.WinUI/Files.WinUI.csproj -c Release
           -p:Platform=${{ matrix.platform }} -r ${{ matrix.rid }}
+          -p:DisableXbfLineInfo=false
           -o artifacts/${{ matrix.rid }}
       - name: Verify x64 application startup
         if: matrix.platform == 'x64'
