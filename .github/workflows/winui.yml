@@ -2,9 +2,9 @@ name: WinUI modernization
 on:
   push:
     branches: [master, 'codex/**']
-    paths: ['src/**', 'tests/**', '.github/workflows/winui.yml']
+    paths: ['src/**', 'tests/**', 'scripts/**', '.github/workflows/winui.yml']
   pull_request:
-    paths: ['src/**', 'tests/**', '.github/workflows/winui.yml']
+    paths: ['src/**', 'tests/**', 'scripts/**', '.github/workflows/winui.yml']
   workflow_dispatch:
 
 permissions:
@@ -42,6 +42,10 @@ jobs:
           dotnet publish src/Files.WinUI/Files.WinUI.csproj -c Release
           -p:Platform=${{ matrix.platform }} -r ${{ matrix.rid }}
           -o artifacts/${{ matrix.rid }}
+      - name: Verify x64 application startup
+        if: matrix.platform == 'x64'
+        shell: pwsh
+        run: ./scripts/smoke-test-winui.ps1 -PublishDirectory ./artifacts/win-x64
       - name: Upload portable application folder
         uses: actions/upload-artifact@v4
         with:
